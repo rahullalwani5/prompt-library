@@ -1,9 +1,15 @@
-Title: Generate BA User Story from Requirements Doc
-Role: BA
-Tags: [ui-requirements, user-story, acceptance-criteria, user-flow, definition-of-done]
-Version: 1.0
-Last_updated: 2025-08-08
-Author: akshata.parab
+Title: Generate BA User Story from Requirements Doc. 
+
+Role: BA.
+
+Tags: [ui-requirements, user-story, acceptance-criteria, user-flow, definition-of-done].
+
+Version: 1.0.
+
+Last_updated: 2025-08-08.
+
+Author: akshata.parab.
+
 ---
  
 # 🧬 Generate BA User Story from Requirements Doc
@@ -93,4 +99,5 @@ UI User Story – [Feature Name]
  
 First convert to Markdown, then generate the structured user story accordingly.
  (See <attachments> above for file contents. You may not need to search or read the file again.)
+
 
