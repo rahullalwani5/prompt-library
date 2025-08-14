@@ -1,0 +1,127 @@
+1. Creating a Document Management System.
+
+I want to set up a complete Document Management System (DMS) using Prisma with my local PostgreSQL database.
+
+DATABASE_URL="postgresql://postgres:admin@localhost:5432/postgres?schema=public"
+
+Do the following in one single response:
+
+1. Generate the complete prisma/schema.prisma file with:
+   - datasource block using the above DATABASE_URL.
+   - generator block for Prisma Client.
+   - models:
+     - User: id (Int @id @default(autoincrement())), name, email (unique), password, createdAt (DateTime @default(now()))
+     - Document: id, title, description, filePath, uploadedAt, uploadedBy (relation to User)
+     - Tag: id, tagName
+     - DocumentTag: id, documentId (relation to Document), tagId (relation to Tag)
+     - DocumentVersion: id, documentId (relation to Document), versionNumber, filePath, updatedAt
+     - AuditLog: id, documentId (relation to Document), action, performedBy (relation to User), timestamp
+   - Define all foreign key relations using Prisma's @relation attribute.
+
+2. Give me the exact commands to:
+   - Install Prisma CLI and dependencies.
+   - Run `npx prisma migrate dev --name init_dms`.
+   - Run `npx prisma generate`.
+
+3. Provide 3 Prisma Client JavaScript examples:
+   - Insert a new user.
+   - Upload a new document with tags.
+   - Fetch a document with tags, versions, and audit logs.
+
+Return everything in **one output** so I can just copy the schema and commands, paste them in VS Code, and execute them manually in my terminal.
+
+
+2. Create a Book Library Management System
+
+You are my coding assistant inside VS Code with Prisma MCP Server enabled.
+
+Current setup:
+- Prisma is already initialized in this project with an existing prisma/schema.prisma for a Document Management System.
+- Prisma MCP servers are running.
+- PostgreSQL is installed locally.
+- DATABASE_URL in .env points to my local Postgres DB.
+- Schema named public already exists in the database.
+
+Goal:
+Without asking for additional input, fully implement and automate a Book Library Management System in the public schema using Prisma. Do not remove or modify existing Document Management System models—only extend the schema.
+
+What you must do end-to-end:
+1. Modify prisma/schema.prisma:
+   - Append new Prisma models for:
+     a) books (book_id UUID @id @default(uuid()), title String, author String, genre String, published_year Int, status String, created_at DateTime @default(now()), updated_at DateTime @updatedAt)
+     b) members (member_id UUID @id @default(uuid()), name String, email String @unique, phone String, joined_at DateTime @default(now()))
+     c) borrow_records (record_id UUID @id @default(uuid()), book_id UUID, member_id UUID, borrow_date DateTime @default(now()), return_date DateTime?, status String)
+   - Add @@schema("public") for each model.
+   - Add foreign key relations between borrow_records.book_id → books.book_id and borrow_records.member_id → members.member_id.
+
+2. Generate and apply a migration (`npx prisma migrate dev --name add_library_system`) that:
+   - Creates the three tables in public.
+   - Creates a view `available_books` listing books where status = 'available'.
+   - Adds indexes on books.title and books.author.
+   - Creates triggers:
+       - On inserting a borrow_record, automatically set that book's status to 'borrowed'.
+       - On updating borrow_records.return_date, automatically set that book's status to 'available'.
+   - Creates a stored procedure `update_book_status(bookId UUID, newStatus TEXT)` to update a book's status.
+
+3. Create prisma/seed.ts that:
+   - Uses @faker-js/faker to insert:
+     - 1000 books with realistic data.
+     - 100 members with realistic data.
+     - 200 borrow_records linking them with realistic borrow and return dates.
+   - All inserts must explicitly reference the public schema.
+   - Seed script should run with `npx prisma db seed`.
+
+4. Execute all required commands in sequence:
+   - Update prisma/schema.prisma
+   - Generate migration
+   - Apply migration
+   - Create and save seed.ts
+   - Run the seed script
+
+Constraints:
+- Do NOT prompt me to manually create or edit files. You must directly write all changes to the appropriate files in the correct paths.
+- Do NOT delete or alter existing Document Management System models.
+- Ensure SQL is schema-qualified with public for views, triggers, indexes, and stored procedures.
+- Ensure the system works immediately after you finish with no extra manual intervention.
+
+
+3. Generate an ER Digram based on the objects in Database.
+
+You are a senior data engineer.  
+I have a PostgreSQL database running locally with schema `public` that contains my Library Book Management System.  
+The database is already populated and connected via the DATABASE_URL in my `.env` file.  
+
+Your task:  
+1. Connect to the Postgres DB using Node.js or a suitable library.  
+2. Read all tables, columns, primary keys, foreign keys, indexes, and relationships in the `public` schema.  
+3. Generate a complete ER diagram from this metadata.  
+4. Use an automated ERD generation approach — for example, by using `prisma-erd-generator`, `pg-erd`, or `erd` via Mermaid or PlantUML — without asking me to manually export SQL or create files.  
+5. Save the ER diagram as both:
+   - A `.png` or `.svg` visual diagram in the `/docs` folder.
+   - A `.md` file with the Mermaid or PlantUML source code for future editing.  
+
+Assume you have full access to run npm installs, scripts, and queries from VS Code.  
+Do not ask me for intermediate confirmations; perform all steps automatically.
+
+
+4. Analyse the Database and suggests some improvements for DB performance
+
+You are a senior data engineer with expertise in database optimization and Prisma.  
+I have a PostgreSQL database running locally with schema `public`, connected via DATABASE_URL in my `.env` file.  
+The Prisma MCP server is installed and running in VS Code, and Prisma is already initialized for this project.
+
+Your task:  
+1. Connect to the database using the Prisma MCP server.  
+2. Inspect all tables, indexes, foreign keys, constraints, and queries in the `public` schema.  
+3. Check for performance issues, such as:
+   - Missing indexes on frequently filtered columns.
+   - Unused or redundant indexes.
+   - Inefficient foreign key setups.
+   - Large tables without partitioning.
+   - Potential normalization or denormalization improvements.
+   - Slow queries in Prisma logs or the Postgres query planner (EXPLAIN/ANALYZE).
+4. Suggest specific, actionable optimizations for each finding.
+5. Provide recommended Prisma schema updates or SQL scripts for these optimizations.
+6. Output the findings in a clear, structured report in Markdown format, saved to `/docs/db_performance_audit.md`.
+
+Do not ask for manual queries or schema exports — perform the analysis automatically using the DB connection.
