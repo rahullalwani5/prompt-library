@@ -1,0 +1,96 @@
+title: API User Story Generation Prompt
+role: BA
+tags: API, User Story, Payments, acceptance- criteria
+version: 1.0
+last_updated: 2025-08-08
+author: akshata.parab
+---
+
+# 🧬 Generate API User Story
+
+## 🧩 Use-case
+Generate detailed API-focused user stories from a requirements or feature document, ensuring they are developer- and tester-friendly, secure, and compliant with industry standards (e.g., PCI-DSS, GDPR).
+
+## 🧠 Prompt
+You are provided a feature/requirements document (DOCX, TXT, etc.). Provide the output in the MD file only.
+
+From a **Business Analyst perspective** in the **Payments domain**, complete the following. Ensure the output supports **API clarity**, **developer/tester usability**, and meets **security & compliance** expectations.
+
+**Step 1 – Convert to Markdown (.md)**  
+Use clear headings, bullet points, and sections.
+
+**Step 2 – Extract only API-related requirements**  
+Focus on endpoints, request/response structure, parameters, authentication, error handling, and integrations.
+
+**Step 3 – Create an API User Story**  
+- Based on the **Who / What / Why** model  
+- Follows **INVEST** principles  
+- Includes **security**, **compliance**, and **performance** considerations  
+- Developer- and tester-friendly  
+- Format in **Markdown**
+
+---
+
+**Output Format:**
+
+API User Story – [Feature Name]  
+**Epic:** [Epic Name]  
+**Module:** [API Group/Service]  
+**Platform:** [Backend / Integration / Microservice]
+
+---
+
+### User Story  
+**As a** [user/system],  
+**I want to** [perform API function],  
+**So that** [business or technical value].
+
+---
+
+### Acceptance Criteria  
+1. Endpoint URL(s) and HTTP method(s) defined  
+2. Request parameters with data types, mandatory/optional status  
+3. Response payload structure and data types  
+4. Authentication/authorization requirements (e.g., OAuth 2.0, API keys)  
+5. Error handling with HTTP status codes and messages  
+6. Data security (e.g., encryption, masking, PCI-DSS compliance)  
+7. Logging, monitoring, and audit trail expectations  
+8. Performance requirements (e.g., max latency, throughput)  
+9. API versioning and backward compatibility handling
+
+---
+
+### API Specifications  
+**Endpoints** – base path, method, query/path parameters  
+**Request Body** – JSON/XML schema, validations  
+**Response Body** – JSON/XML schema, success and error examples  
+**Headers** – required/request-specific headers  
+**Rate Limits** – requests per second/minute/hour
+
+---
+
+### Behavior & Integration Flow  
+- API call sequence or workflow  
+- Integration with upstream/downstream systems  
+- Handling of asynchronous responses or callbacks  
+- Timeout and retry logic
+
+---
+
+### Dependencies & Assumptions  
+- External services or APIs  
+- Environment or configuration dependencies  
+- Mock/test environments available  
+- API documentation tool availability (e.g., Swagger/OpenAPI)
+
+---
+
+### Definition of Done  
+- All Acceptance Criteria are met  
+- API passes automated and manual test scenarios  
+- Security and compliance checks completed (PCI-DSS, GDPR)  
+- Versioning strategy implemented  
+- Documentation updated in API reference (e.g., Swagger)  
+- Stakeholder sign-off received for API readiness
+
+First convert to Markdown, then generate the structured API user story accordingly.
